@@ -1,0 +1,336 @@
+#background path {
+  fill: none;
+  /*stroke: cateColor(1);*/
+  stroke-width: 2;
+  shape-rendering: geometricPrecision;
+  opacity: .5;
+}
+
+#headerBar{
+  height: 28px;
+  width: 100vh - 20px;
+  background-color: black;
+  color: white;
+  padding-right: 10px;
+  padding-left: 5px;
+  font-size: 20px;
+  padding-top: 2px;
+}
+
+#selectSpan{
+  font-size: 14px;
+  /*float: right;*/
+}
+
+#closeIcon{
+  float: right;
+  cursor: pointer;
+}
+
+select{
+  background: transparent;
+  border: 1px solid #ffffff;
+  /*-webkit-appearance: none;*/
+  /*-moz-appearance: none;*/
+  /*appearance: none;*/
+  border-radius: 0;
+  color: #ffffff;
+  padding: 3px;
+}
+
+select:focus{
+  outline: none;
+}
+
+.intro{
+  /*position: absolute;*/
+  /*top: 0;*/
+  /*width: calc(100% - 4px);*/
+  background: #eee;
+  padding: 2px;
+}
+
+.entityNoteDispDiv{
+  padding: 2px;
+}
+
+.noteButtonDiv{
+  text-align: right;
+}
+
+#publicBox{
+  float: right;
+}
+
+#dialog-form input { display:block; }
+#dialog-form input.text { margin-bottom:12px; width:95%; padding: .4em; }
+/*#dialog-form */
+fieldset { padding:0; border:0; }
+#dialog-form fieldset a{ text-decoration: underline; cursor: pointer;}
+
+#captureIcon:active, #editIcon:active, #showNoteIcon:active{
+  transform: scale(.8);
+}
+
+fieldset .taskLabel{
+  display: block;
+  margin-bottom: 10px;
+}
+
+fieldset .descrip{
+  width: 100%;
+}
+
+fieldset .inputedText{
+  background-color: #EBEBE4;
+  /*border:1px solid #ABADB3;*/
+  border: none;
+  width: 100%;
+  /*padding:2px 1px;*/
+}
+
+
+#usernameSpan{
+  margin-left: 20px;
+  float: right;
+}
+
+#noteSpan{
+  float: right;
+  cursor: pointer;
+}
+
+#noteSpan i{
+  margin: 2px;
+}
+
+#postitDiv button{
+  margin: 2px;
+  /*width: 50px;*/
+  border: 0;
+  outline: none;
+  background: #fc92c1;
+}
+
+.noteButtonDiv button:hover{
+  font-weight: bold;
+}
+
+.noteButtonDiv button:active{  
+  outline: none;
+  transform: scale(.8);
+}
+
+.noteButtonDiv button{
+  outline: none;
+  margin: 2px;
+  border: 0;
+  background: #eee;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+#postitDiv button:hover{
+  font-weight: bold;
+}
+
+#postitDiv button:active{  
+  outline: none;
+  transform: scale(.8);
+}
+
+#instruA{
+  text-decoration: underline;
+  color: white;
+  text-align: right;
+  cursor: pointer;
+  /*float: right;*/
+}
+
+/*.mutationGroupBackground:nth-child(2n+1)
+{
+  background-color: #eee;
+  opacity: .5;
+}*/
+
+/*#removedGroup path{
+  fill: none;
+  stroke-width: 2;
+  shape-rendering: geometricPrecision;
+}
+
+.paraG {
+  width: 100%
+}
+
+.datasetControl{
+  margin-left: 12px;
+}*/
+
+#selectedListDiv{
+  overflow-y: scroll;
+}
+
+/*.title{
+  font-weight: 700;
+  font-size: 13pt;
+  padding-left: 5px;
+}*/
+
+.rows {
+  height: 100%;
+}
+
+ul {
+  padding-left: 0;
+}
+
+li {
+  list-style-type: none;
+}
+
+li em{background:#ff6;font-style:normal}
+
+
+/*.stackGroup{
+  width: 80%
+}*/
+
+.foreground path {
+  fill: none;
+  stroke: darkgreen;
+  stroke-width: 2;
+}
+
+/*.foreground:hover{
+  opacity: 1;
+}*/
+
+.brush .extent {
+  fill-opacity: .3;
+  stroke: #fff;
+  shape-rendering: crispEdges;
+}
+
+/*.onesetGroup{
+  border: 1px solid black;
+  stroke-opacity: 0;
+}*/
+.right tbody tr:nth-child(2n+1) {background-color: #ccc;}
+.right svg{
+  margin: 10px;
+}
+
+/*.axis line{
+  display: none;
+}
+.axis path {
+  fill: none;
+  stroke: #000;
+  shape-rendering: geometricPrecision;
+}
+
+.axis text {
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+  /*cursor: move;
+}*/
+
+#moveHandle{
+  position:relative;
+  right:3px;
+  background-color:#ddd;
+  float:left;
+  /*cursor:ew-resize;*/
+  border-left:1px solid #999;
+  border-right:1px solid #999;
+  width:3px;
+  height:50px
+}
+
+#checkBoxes{
+  overflow-y: scroll;
+  overflow-x: hidden;
+  background-color: #ccc;
+}
+
+.scrollSvg{
+  display: none;
+}
+
+#tooltip {   
+  position: absolute;
+  background-color: white; 
+  visibility:hidden; 
+  border: 1px solid black;  
+  z-index: 20000000;     
+}
+
+/*#usertooltip {   
+  position: absolute;
+  background-color: white; 
+  visibility:hidden; 
+  border: 1px solid black;       
+}
+
+#usertooltip text{
+  margin: 2px;
+  background-color: #ccc;
+  cursor: pointer;
+}*/
+
+#tooltip text{
+  margin: 2px;
+}
+
+#menu{
+  cursor: pointer;
+}
+
+#selectionMenuDiv, #noteMenuDiv{
+  padding: 2px;
+  /*position: absolute;*/
+  /*visibility: hidden;*/
+  background-color: #ccc;
+  cursor: pointer;
+}
+
+/**** drop down menu ****/
+.dropbtn {
+    background-color: transparent;
+    color: white;
+    border: none;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    font-size: 14px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #ccc;
+    min-width: 40px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    right: 0px;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 2px;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+}
+
+.dropdown-content a:hover {background-color: #aaa}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    /*background-color: #3e8e41;*/
+}

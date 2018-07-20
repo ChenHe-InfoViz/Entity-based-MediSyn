@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="javascripts/css/main.css">
+  <link rel="stylesheet" type="text/css" href="javascripts/css/elements.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">  
+  <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet">  
+  <link href="introJS/introjs.css" rel="stylesheet">
+  <script type="text/javascript" src="introJS/intro.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script src="https://d3js.org/d3-hsv.v0.0.min.js"></script>
+  <link rel="shortcut icon" type="image/x-icon" href="./javascripts/img/favicon.png"/>
+  <title>MediSyn | History</title>
+</head>
+
+<body>
+  <div id = "headerBar">
+    <!-- <i class="fa fa-bars" id = "menu"></i> -->
+    <span style="text-align: center;">MediSyn -- Biomedical Datasets Synthesizer</span>  
+    <span style="font-size: 14px;"><a id="instruA" href="javascripts/introduction/index.html" target="_blank">   Instruction<i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a></span>
+    <!-- <span id="usernameSpan"></span> -->
+    <span id = "selectSpan">
+      <!-- <fieldset> -->
+      <label for="speed">Layout</label>
+      <select name="speed" id="speed">
+        <option value="context">Context-aware layout</option>
+        <option value="time">Timeline layout</option>
+      <!-- </fieldset> -->
+      </select>
+      <!-- <i class="fa fa-crosshairs fa-2x" id = "captureIcon" aria-hidden="true"></i> -->
+      <!-- <i class="fa fa-pencil-square-o" id = "editIcon" aria-hidden="true"></i> -->
+      <!-- <i class="fa fa-sticky-note-o" id="showNoteIcon" aria-hidden="true"></i> -->
+        <!-- <a href="javascript:void(0);" onclick="javascipt:window.open('https://drive.google.com/file/d/0B3fvo7HhuohzMlJBdDRXdVk4X28/view?usp=sharing');" class="popup">User guide</a> -->
+    </span>
+  </div>
+  <div id = "iframeFader" style="display: none; background-color: white"> 
+      <img src="javascripts/31.gif">
+  </div>
+  <!-- <div id = "historyBody"> -->
+    <div id = "grid"></div>
+    <!-- <div id = "tooltip">
+      <text id = "name"></text>
+      <div id = "selectionMenuDiv">
+        <text>select</text>
+      </div>
+      <div id = "noteMenuDiv">
+        <text>view notes</text>
+      </div>
+    </div> -->
+  <!-- </div> -->
+  <script src="javascripts/wrap.js"></script>
+  <script src="javascripts/highlight.js"></script>
+  <script src="javascripts/anno.js"></script>
+  <script src="javascripts/log.js"></script>
+  <script src="javascripts/drawHistory.js"></script>
+  <script src="javascripts/globalVariable.js"></script>
+  <script src="javascripts/sortDrugs.js"></script>
+  <script src="javascripts/svgBody.js"></script>
+  <script src="javascripts/svgHeader.js"></script>
+  <script src="javascripts/entitySelection.js"></script>
+  <script src="javascripts/interactiveintro.js"></script>
+  <!-- <script src="javascripts/ui.js"></script> -->
+  <!-- <script src="javascripts/dataParser.js"></script> -->
+  <script>
+    var leafid = null, user;
+    $(document).ready(function() {
+      if (typeof Storage !== "undefined") {
+
+        if(leafid == null){
+          leafid = "2018.01.20_15:25:07:743" //localStorage.getItem("mediSynHis");
+          user = "Ammad" //Ammad localStorage.getItem("mediSynUser");
+          username = "" //localStorage.getItem("mediSynCurUser");
+        }
+
+        var layout = "context"
+        // if (localStorage.getItem("mediSynHisStruc") == null) {
+        //   localStorage.setItem("mediSynHisStruc", "context");
+        // }
+        // else{
+          //layout = localStorage.getItem("mediSynHisStruc")
+          $("#speed").val(layout)
+        //}
+        //hisStruc.push({_id: getFormatedTime(), type: "initial" + layout, noteTime: leafid, username: username})
+
+        $("#iframeFader").show()
+        getRoot(leafid, user)
+      }
+      else d3.select("#grid").append("label").text("Sorry, your browser does not support localStorage. Please consider upgrade to a newer version.")
+    })
+
+    var hisStruc = []
+    $("#speed").change(function(){
+      //console.log($(this).val())
+      var layout = $(this).val()
+      if(!nodeView) return;
+      if(layout == "context"){
+        nodeView.toTreeStruc()
+        //localStorage.setItem("mediSynHisStruc", "context");
+      }
+      else{
+        nodeView.toLinearStruc()        
+        //localStorage.setItem("mediSynHisStruc", "time");
+        //console.log(localStorage.getItem("mediSynHisStruc"))
+      }
+      //hisStruc.push({_id: getFormatedTime(), type: layout, noteTime: leafid, username: username}) 
+      nodeView.updateNodeSize();
+    })
+
+    // window.onbeforeunload = function() {
+    //   //console.log(hisStruc)
+    //   $.ajax({
+    //     url: 'savelog',
+    //    type: 'POST',
+    //    contentType:'application/json',
+    //    data: JSON.stringify(hisStruc),
+    //    dataType:'json',
+    //    success: function(res){
+    //     //console.log(res)
+    //       console.log("writing log success!")
+    //    },
+    //    error: function()
+    //    {
+    //       console.log("writing log error!");
+    //    }
+    //   })
+    // if(interactionHistory.length > 0) saveHistory()
+    // for(var i = 0; i < historyWindows.length; i++) 
+    //     historyWindows[i].close()
+    //}
+    introSecondStart();
+  </script>
+</body>
