@@ -86,7 +86,7 @@ app.post('/getusername', function(req, res){
 	        service: 'Gmail',
 	        auth: {
 	          user: 'medisyn.d4health@gmail.com',
-	          pass: 'ubiinter'
+	          pass: ''
 	        }
       	});
       var mailOptions = {
@@ -133,7 +133,7 @@ app.post('/forgot', function(req, res) {
 	        service: 'Gmail',
 	        auth: {
 	          user: 'medisyn.d4health@gmail.com',
-	          pass: 'ubiinter'
+	          pass: ''
 	        }
         })
 
@@ -194,7 +194,7 @@ app.post('/reset', function(req, res) {
         service: 'Gmail',
         auth: {
           user: 'medisyn.d4health@gmail.com',
-          pass: 'ubiinter'
+          pass: ''
         }
       });
       var mailOptions = {

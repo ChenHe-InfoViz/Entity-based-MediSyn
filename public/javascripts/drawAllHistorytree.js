@@ -624,9 +624,7 @@ function getAllNotesHistory(){
                 fill: function(d){return c20(allTypes.indexOf(d))},
                 //transform: function(d,i){ return "translate(" + i*30 + ",0)"}
             })
-            insEnter.append("text").text(function(d){
-                if(d == "deselect") return "de-select"
-                return " " + d + "  ";}).style({
+            insEnter.append("text").text(function(d){return d;}).style({
                 "text-anchor": "start",
                 "alignment-baseline": "hanging"
             }).attr({
@@ -649,7 +647,7 @@ function getAllNotesHistory(){
                 //         transform: "translate(" + shift + ",14)"
                 //     })
                 // }
-                shift += d3.select(this).node().getBoundingClientRect().width + 6
+                shift += d3.select(this).node().getBoundingClientRect().width + 3
                 //if(i == 7) shift = 0;
             })
             
@@ -705,7 +703,7 @@ function drawTrail(response){
 
 function updateTrailRows(first = false){
     //var temp = trailArray.map(function(e) { return e.time; })
-    var row = d3.select(".parts:nth-child(2)").attr("transform", "translate(0, 20)")
+    var row = d3.select(".parts:nth-child(2)").attr("transform", "translate(0, 36)")
                 .selectAll(".rows").data(//temp.filter(function(elem, pos) {
                 //return temp.indexOf(elem) == pos;
                 notesDisWithOrder
@@ -719,12 +717,9 @@ function updateTrailRows(first = false){
 
     var t = 1000;
     if(first) t = 0;
-    var shift = -9
     d3.selectAll(".rows").transition().duration(t).attr({
         transform: function(d, i){
-            if([1, 3, 6, 10, 16, 21, 25, 30, 33, 36, 39, 42, 46].indexOf(i) > -1) shift += 4
-            else shift += 9
-            return "translate(0," + shift + ")"
+            return "translate(0," + 9*i + ")"
         }
     })
 }
@@ -1367,7 +1362,7 @@ if(ids.indexOf(array[array.length-1]._id) < 0) return;
 }
 var allActions = ["select", "deselect", "add", "noteSelect", "pivot", "hoverEntity", "noteDis", "allNote", "detail", "hoverData", 
     "pub", ",", "viewHis", "up", "writeNote"]
-var allTypes = ["select", "deselect", "explore", ",", "connect", ".", "share", ",,", "elaborate", "1", "2", "3", "4", "5", "write a note"]
+var allTypes = ["select", "deselect", "explore", ",", "connect", ".", "share", ",,", "elaborate", "1", "2", "3", "4", "5", "writeNote"]
 
 var countSet = new Set();
 
@@ -1489,7 +1484,6 @@ function categorizeTypes(action){
     if(action == "noteDis" || action == "allNote" || action == "viewHis" || action == "up" || action == "down"){
         return "share"
     }
-    if(action == "writeNote") return "write a note"
     return action;
 }
 

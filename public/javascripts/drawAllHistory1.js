@@ -36,18 +36,17 @@ function drawHisView(rootNode, i, historyArray){
      //nodeView.noteOrder = i;
      nodeViewArray.push(nodeView);
      
-     // nodeView.selectedEntities = removeDuplicates(nodeView.selectedEntities, "entity")
-     d3.select("#grid" + i).style("grid-template-rows", "repeat("+ nodeView.gridDim.row + ", minmax(30px, " + 100/nodeView.gridDim.row + "%)")
-     d3.select("#grid" + i).style("grid-template-columns", "repeat("+ nodeView.gridDim.col + ",minmax(100px, " + 100/nodeView.gridDim.col + "%)")
+     //nodeView.selectedEntities = removeDuplicates(nodeView.selectedEntities, "entity")
+     //d3.select("#grid" + i).style("grid-template-rows", "repeat("+ nodeView.gridDim.row + ", minmax(30px, " + 100/nodeView.gridDim.row + "%)")
+     //d3.select("#grid" + i).style("grid-template-columns", "repeat("+ nodeView.gridDim.col + ",minmax(100px, " + 100/nodeView.gridDim.col + "%)")
      //console.log(nodeView.selectedEntities)
-     // nodeView.drawNode()
+     //nodeView.drawNode()
      //nodeView.drawTimeSeries()
      //nodeView.retrieveDtcforHis(nodeView)
      //nodeView.retrieveEffectsforHis(nodeView)
 }
 
 function drawGrid(){
-    console.log(nodeViewArray.length)
     var grid = d3.select("body").selectAll(".groupDiv").data(nodeViewArray);
     var gridEnter = grid.enter().append("div").attr({
         class: "groupDiv"
@@ -77,7 +76,7 @@ drawNodeView.prototype.drawViewFrame = function(){//(action, rowCount, row, col,
     divEnter.append("div").attr("class", "intro").append("text").style("word-wrap", "break-word")
 
     divEnter.append("div").attr({
-        id: function(d){ return d.action + d.row + d.col + "00" + self.noteOrder},
+        id: function(d){ return d.action + d.row + d.col + self.noteOrder},
         class: "disDiv",
     })
     // .style({
@@ -98,7 +97,7 @@ function toTreeStruc(){
         //height: "calc(100vh - 30px)",
         //width: "100vw"
     //})
-    d3.select(this).style("grid-template-rows", "repeat("+ d.gridDim.row + ", 50px")//minmax(30px, " + 100/d.gridDim.row + "%)")
+    d3.select(this).style("grid-template-rows", "repeat("+ d.gridDim.row + ", 80px")//minmax(30px, " + 100/d.gridDim.row + "%)")
     d3.select(this).style("grid-template-columns", "repeat("+ d.gridDim.col + ", 200px") //minmax(100px, " + 100/d.gridDim.col + "%)")
      
     d3.select(this).selectAll(".gridDiv").style({
@@ -150,9 +149,9 @@ drawNodeView.prototype.getGridDim = function(treeNode, row, col){
     //if(coActions.indexOf(treeNode.action) > -1){
         //this.selectedEntities = this.selectedEntities.concat(treeNode.selectedEntities)
     //}
-    // if(comActions.indexOf(treeNode.action) > -1){
-        // this.selectedEntities = this.selectedEntities.concat(treeNode.selectedEntities)
-    // }
+    if(coActions.indexOf(treeNode.action) > -1){
+        this.selectedEntities = this.selectedEntities.concat(treeNode.selectedEntities)
+    }
     //var rowCount = 0;
     treeNode.row = row;
     treeNode.col = col;
@@ -215,7 +214,6 @@ drawNodeView.prototype.nodeFromId = function(id){
 
 drawNodeView.prototype.drawNode = function (){
     //if(treeNode == null) return;
-    console.log(this.interactionHistory.length)
     this.drawViewFrame();
     var selectEntity = []
     for(var i = 0; i < this.interactionHistory.length; i++){
@@ -337,22 +335,22 @@ drawNodeView.prototype.drawNode = function (){
 // }
 
 drawNodeView.prototype.drawStaView = function(treeNode){
-    $("#" + treeNode.action + treeNode.row + treeNode.col + "00" + this.noteOrder).parent().children(".intro").find("text").text("exploring: " + treeNode.exploring + "; comparing: " + treeNode.comparing.length + " [" + treeNode.comparing.join(", ") + "]; elaborating: " + treeNode.elaborating.length + " [" + treeNode.elaborating.join(", ") + "]; viewHis: " + treeNode.viewHis.length + "[" + treeNode.viewHis.join(", ") + "]; pub: " + treeNode.pub)
+    $("#" + treeNode.action + treeNode.row + treeNode.col + this.noteOrder).parent().children(".intro").find("text").text("exploring: " + treeNode.exploring + "; comparing: " + treeNode.comparing.length + " [" + treeNode.comparing.join(", ") + "]; elaborating: " + treeNode.elaborating.length + " [" + treeNode.elaborating.join(", ") + "]; viewHis: " + treeNode.viewHis.length + "[" + treeNode.viewHis.join(", ") + "]; pub: " + treeNode.pub)
 }
 
 drawNodeView.prototype.drawHoverEntityView = function(treeNode){
     //this.drawViewFrame("hoverentity", treeNode.row, row, col, treeNode.action + ": " + treeNode.entity)
-    $("#" + treeNode.action + treeNode.row + treeNode.col + "00" + this.noteOrder).parent().children(".intro").find("text").text(treeNode.action + ": " + treeNode.entity)
+    $("#" + treeNode.action + treeNode.row + treeNode.col + this.noteOrder).parent().children(".intro").find("text").text(treeNode.action + ": " + treeNode.entity)
 }
 
 drawNodeView.prototype.drawUpDownView = function(treeNode){
     //this.drawViewFrame("updown", treeNode.row, row, col, treeNode.action + ": " + treeNode.noteid + " " + treeNode.state)
-    $("#" + treeNode.action + treeNode.row + treeNode.col + "00" + this.noteOrder).parent().children(".intro").find("text").text(treeNode.action + ": " + treeNode.noteid + " " + treeNode.state)
+    $("#" + treeNode.action + treeNode.row + treeNode.col + this.noteOrder).parent().children(".intro").find("text").text(treeNode.action + ": " + treeNode.noteid + " " + treeNode.state)
 }
 
 drawNodeView.prototype.drawHoverDataView = function(treeNode){   
     //this.drawViewFrame("hoverdata", treeNode.row, row, col, treeNode.action + ": " + treeNode.drug + " " + treeNode.mutation + " " + treeNode.tumor)
-    $("#" + treeNode.action + treeNode.row + treeNode.col + "00" + this.noteOrder).parent().children(".intro").find("text").text(treeNode.action + ": " + treeNode.drug + " " + treeNode.mutation + " " + treeNode.tumor)
+    $("#" + treeNode.action + treeNode.row + treeNode.col + this.noteOrder).parent().children(".intro").find("text").text(treeNode.action + ": " + treeNode.drug + " " + treeNode.mutation + " " + treeNode.tumor)
 
 }
 
@@ -376,7 +374,7 @@ drawNodeView.prototype.drawSelectionView = function(treeNode, selectAction){
     }
     if(treeNode.action == "deselect") text = "deselect. " + text
     //this.drawViewFrame(treeNode.action, treeNode.row, row, col, treeNode.action + ": " + treeNode.entity + " \n Selected entities: " + treeNode.selectedEntities.map(a => a.entity).join(", "))
-    $("#" + treeNode.action + treeNode.row + treeNode.col + "00" + this.noteOrder).parent().children(".intro").find("text").text(text);//treeNode.action + ": " + treeNode.entity + " \n Selected entities: " + treeNode.selectedEntities.map(a => a.entity).join(", "))
+    $("#" + treeNode.action + treeNode.row + treeNode.col + this.noteOrder).parent().children(".intro").find("text").text(text);//treeNode.action + ": " + treeNode.entity + " \n Selected entities: " + treeNode.selectedEntities.map(a => a.entity).join(", "))
 
         // if(!treeNode.hasOwnProperty("message"))
       
@@ -451,7 +449,7 @@ drawNodeView.prototype.drawPivotView = function(node){
     //     addDataforVis(list[i], disData)
     // }
     //this.drawViewFrame("pivot", node.row, row, col, "Pivot: " + node.entity)
-    $("#" + node.action + node.row + node.col + "00" + this.noteOrder).parent().children(".intro").find("text").text("Pivot: " + node.entity)
+    $("#" + node.action + node.row + node.col + this.noteOrder).parent().children(".intro").find("text").text("Pivot: " + node.entity)
 
     //disData.selectedEntities.push({entity: node.entity, type: node.type})
     //this.drawHisMatrix("#pivot" + row + col, disData)
@@ -471,7 +469,7 @@ drawNodeView.prototype.drawDetailView = function(node){
     disData.dataset[node.dataset] = true;
     //addDataforVis(data[0], disData)
     //this.drawViewFrame("detail", node.row, row, col, "Detail. \ndrug: " + node.drug + "; tumor: " + node.tumor + "; mutation: " + node.mutation)
-    $("#" + node.action + node.row + node.col + "00" + this.noteOrder).parent().children(".intro").find("text").text("Detail. \ndrug: " + node.drug + "; tumor: " + node.tumor + "; mutation: " + node.mutation)
+    $("#" + node.action + node.row + node.col + this.noteOrder).parent().children(".intro").find("text").text("Detail. \ndrug: " + node.drug + "; tumor: " + node.tumor + "; mutation: " + node.mutation)
     //: Relation between " + node.drug + " and " + node.mutation
     //+ " in " + node.tumor + " from " + node.dataset + ".")
     //this.drawHisMatrix("#detail" + row + col, disData);
@@ -490,7 +488,7 @@ drawNodeView.prototype.drawDetailView = function(node){
 
 drawNodeView.prototype.drawPubView = function(node){
     //this.drawViewFrame("pub", node.row, row, col, "Retrieve a publication.")    
-    $("#" + node.action + node.row + node.col + "00" + this.noteOrder).parent().children(".intro").find("text").text("Retrieve a publication.")
+    $("#" + node.action + node.row + node.col + this.noteOrder).parent().children(".intro").find("text").text("Retrieve a publication.")
 
     //: Relation between " + node.drug + " and " + node.mutation
     //+ " in " + node.tumor + " from " + node.dataset + ".")
@@ -498,8 +496,8 @@ drawNodeView.prototype.drawPubView = function(node){
     //console.log(node.pmid)
     //var div = document.getElementById("pub" + row + col);
     //div.innerHTML = '<iframe style="width:100%;height:100%;" frameborder="0" src="' + "https://www.ncbi.nlm.nih.gov/pubmed/" + node.pmid + '" />';
-    var text = d3.select("#pub" + node.row + node.col + "00" + this.noteOrder).append('text').text("DOI ").style("font-weight", "bold");
-    d3.select("#pub" + node.row + node.col + "00" + this.noteOrder).append("a")
+    var text = d3.select("#pub" + node.row + node.col + this.noteOrder).append('text').text("DOI ").style("font-weight", "bold");
+    d3.select("#pub" + node.row + node.col + this.noteOrder).append("a")
      .style({
         'cursor':'pointer',
         'text-decoration': 'underline'
@@ -522,7 +520,7 @@ drawNodeView.prototype.drawNoteDisView = function(node){
         case "viewHis": text = "View history actions of a note."; break;
     }
     //this.drawViewFrame("noteDis", node.row, row, col, text)    
-    $("#" + node.action + node.row + node.col + "00" + this.noteOrder).parent().children(".intro").find("text").text(text)
+    $("#" + node.action + node.row + node.col + this.noteOrder).parent().children(".intro").find("text").text(text)
 
     var self = this;
     //: Relation between " + node.drug + " and " + node.mutation
@@ -539,11 +537,11 @@ drawNodeView.prototype.drawNoteDisView = function(node){
             
             //console.log($("#noteDis" + row + col).parent().children(".intro").height())
             if(response.hasOwnProperty("message")){
-                $("#" + node.action + node.row + node.col + "00" + self.noteOrder).html(response.message)
+                $("#" + node.action + node.row + node.col + self.noteOrder).html(response.message)
             }
             else{
-                drawNoteFramework("#" + node.action + node.row + node.col + "00" + self.noteOrder)
-                drawNotesFromRes({entity: node.entity, type: node.type}, response, "#" + node.action + node.row + node.col + "00" + self.noteOrder)
+                drawNoteFramework("#" + node.action + node.row + node.col + self.noteOrder)
+                drawNotesFromRes({entity: node.entity, type: node.type}, response, "#" + node.action + node.row + node.col + self.noteOrder)
             }
         },
         error: function () {
@@ -555,7 +553,7 @@ drawNodeView.prototype.drawNoteDisView = function(node){
 //var patternCsv = "totalGroup;total;selectFrac;selectGroupFrac;selectGroup;select;selectTotal;exploreFrac;exploreGroupFrac;exploreGroup;explore;exploreDetail;exploreTotal;compareFranc;compareGroupFrac;compareTimes;compareGroup;compare;compareDetail;compareTotal;elaFrac;elaborateGroupFrac;elaborateGroup;elaborate;elaDetail;elaTotal;noteFrac;noteGroupFrac;noteGroup;note;noteDetail;noteTotal;noteid;interrupt;action;id\n";
 var patternCsv = "selectTotal;exploreTotal;pivotTotal;elaTotal;noteTotal;noteid;interval;action;id\n"
 var traces = "";
-var c20 = d3.scale.category20().domain(d3.range(0,20));
+var c20 = d3.scale.category20();
 
 //var countSteps = "step;note;action;time\n"
 function getAllNotesHistory(){
@@ -565,8 +563,8 @@ function getAllNotesHistory(){
         dataType: "json",
         success: function(response){
             //console.log(response);
-            //var allActionsForDis = ["select", "deselect", "add from the view", "select from a note", "pivot", "hover over an entity", "display notes of an entity", "display all notes", 
-            //"detail", "hover over a data cell", "retrieve a publication", ",", "view provenance of a note", "thumbs up", "write a note"]
+            var allActionsForDis = ["select", "deselect", "add from the view", "select from a note", "pivot", "hover over an entity", "display notes of an entity", "display all notes", 
+            "detail", "hover over a data cell", "retrieve a publication", ",", "view provenance of a note", "thumbs up", "write a note"]
             // var g = d3.select("svg").append("g").attr({
             //     transform: "translate(11,0)"
             // })
@@ -583,7 +581,7 @@ function getAllNotesHistory(){
             // })
             // var dis = 0;
             // d3.selectAll(".header").each(function(d, i){
-            //     if([3,5,7,9,10,11,12,13].indexOf(i) > -1){
+            //     if(i == 11|| i== 13){
             //         d3.select(this).style("display", "none")
             //         return
             //     }
@@ -610,23 +608,20 @@ function getAllNotesHistory(){
             //     //     shift += 3;
             //     // }
             // })
-            //drawParallelCor(drawTrail, response);
-            drawTrail(response)
+            drawParallelCor(drawTrail, response);
 
-            var ins = d3.select(".parts:nth-child(1)").selectAll("g").data(allTypes, function(d){return d})
+            var ins = d3.select(".parts:nth-child(1)").selectAll("g").data(allActionsForDis)
             var insEnter = ins.enter().append("g").attr({
-                transform: function(d,i){return "translate(" + 100*i + ",0)"}
+                //transform: function(d,i){return "translate(" + 100*i + ",0)"}
             });
             ins.exit().remove();
             insEnter.append("rect").attr({
                 height: 8,
                 width: 5,
-                fill: function(d){return c20(allTypes.indexOf(d))},
+                fill: function(d){return c20(allActionsForDis.indexOf(d))},
                 //transform: function(d,i){ return "translate(" + i*30 + ",0)"}
             })
-            insEnter.append("text").text(function(d){
-                if(d == "deselect") return "de-select"
-                return " " + d + "  ";}).style({
+            insEnter.append("text").text(function(d){return d;}).style({
                 "text-anchor": "start",
                 "alignment-baseline": "hanging"
             }).attr({
@@ -635,36 +630,30 @@ function getAllNotesHistory(){
 
             shift = 0;
             d3.select(".parts:nth-child(1)").selectAll("g").each(function(d, i){
-                if([3,5,7,9,10,11,12,13].indexOf(i) > -1){
+                if(i == 11 || i == 13){
                     d3.select(this).style("display", "none")
                     return;
                 }
-                //if(i <= 7){
+                if(i <= 7){
                     d3.select(this).attr({
                         transform: "translate(" + shift + ",0)"
                     })
-                // }
-                // else{
-                //     d3.select(this).attr({
-                //         transform: "translate(" + shift + ",14)"
-                //     })
-                // }
-                shift += d3.select(this).node().getBoundingClientRect().width + 6
-                //if(i == 7) shift = 0;
+                }
+                else{
+                    d3.select(this).attr({
+                        transform: "translate(" + shift + ",14)"
+                    })
+                }
+                shift += d3.select(this).node().getBoundingClientRect().width + 3
+                if(i == 7) shift = 0;
             })
             
-            //drawNeighbors(allTypes, typeNeighbors, [3,5,7,9,10,11,12,13])
+            //drawNeighbors()
             //console.log(neighbors)
             //download("traces.csv", traces)
             //download("count.csv", countSteps)
-            // var cc = 0;
-            // for(var i = 0; i < response.length; i++){
-            //     // console.log(response[i][response[i].length - 1])
-            //     if(notesDisWithOrder.indexOf( response[i][response[i].length - 1]._id) > -1 )
-            //         drawHisView(response[i][0], cc++, response[i])
-            // }
-            // drawGrid()
-            // toTreeStruc()
+            //drawGrid()
+            //toTreeStruc()
         },
         error: function(){
             console.log("all his failed.")
@@ -675,42 +664,26 @@ function getAllNotesHistory(){
 
 function drawTrail(response){
     updateTrailRows(true);
-    // var temp = trailArray.map(function(e) { return e.time; })
-    // temp = temp.filter(function(elem, pos) {
-    //         return temp.indexOf(elem) == pos;
-    //     })
+    var temp = trailArray.map(function(e) { return e.time; })
+    temp = temp.filter(function(elem, pos) {
+                return temp.indexOf(elem) == pos;
+            })
     //console.log(temp)
     for(var i = 0; i < response.length; i++){
         //interactionHistory = ;    
         //countPatternsForEach(response[i])
-        getTraces(response[i])
-        //getNeighborActions(response[i])
-
+        getTraces(response[i], temp)
+        //getNeighborActions(response[i])      
+        //drawHisView(response[i][0], i, response[i])
     }
-    // for(var i = 0; i < neighbors.length; i++){
-    //     var a1 = categorizeTypes(neighbors[i].first), a2 = categorizeTypes(neighbors[i].second)
-    //     var re  = $.grep(typeNeighbors, function(e){
-    //         return e.first == a1 && e.second == a2;
-    //     })
-    //     if(!re.length){
-    //         var o = {first: a1, second: a2, count: 0}
-    //         o.count += neighbors[i].count
-    //         typeNeighbors.push(o)
-    //     }
-    //     else re[0].count += neighbors[i].count
-    //     // console.log(response[i])   
-    //     //drawHisView(response[i][0], i, response[i])
-    // }
 }
 
 function updateTrailRows(first = false){
-    //var temp = trailArray.map(function(e) { return e.time; })
-    var row = d3.select(".parts:nth-child(2)").attr("transform", "translate(0, 20)")
-                .selectAll(".rows").data(//temp.filter(function(elem, pos) {
-                //return temp.indexOf(elem) == pos;
-                notesDisWithOrder
-            //})
-            );
+    var temp = trailArray.map(function(e) { return e.time; })
+    var row = d3.select(".parts:nth-child(2)").attr("transform", "translate(0, 36)")
+                .selectAll(".rows").data(temp.filter(function(elem, pos) {
+                return temp.indexOf(elem) == pos;
+            }), function(d){return d;});
     var rowEnter = row.enter().append("g").attr({
         class: "rows"
     })
@@ -719,12 +692,9 @@ function updateTrailRows(first = false){
 
     var t = 1000;
     if(first) t = 0;
-    var shift = -9
     d3.selectAll(".rows").transition().duration(t).attr({
         transform: function(d, i){
-            if([1, 3, 6, 10, 16, 21, 25, 30, 33, 36, 39, 42, 46].indexOf(i) > -1) shift += 4
-            else shift += 9
-            return "translate(0," + shift + ")"
+            return "translate(0," + 9*i + ")"
         }
     })
 }
@@ -901,7 +871,7 @@ function countFailTrail(){
                 if(data[j] == "select") rowCount.select++;
                 if(data[j] == "noteSelect" || data[j] == "add") rowCount.explore++;
                 if(data[j] == "pivot" || data[j] == "hoverEntity") rowCount.pivot++;
-                if(data[j] == "detail" || data[j] == "hoverData" || data[j] == "pub") rowCount.elaborate++;
+                if(data[j] == "detail" || data[j] == "hoverData") rowCount.elaborate++;
                 if(data[j] == "noteDis" || data[j] == "viewHis" || data[j] == "allNote" || data[j] == "up")
                     rowCount.note++;
                 //if(data[j].indexOf("writeNote") > -1)
@@ -1151,7 +1121,7 @@ function countPatterns(array){
      //+ elaborating.length + ";" + elaborating.join(",,") + ";" + elaArray.join(",,") + ";" + elaTotal + ";" + (exploreingNoteTotal / total).toFixed(3).toString().replace(/\./g, ",") + ";" + (exploringNotes.length / totalGroup).toFixed(3).toString().replace(/\./g, ",") + ";" + exploringNotes.length + ";" + exploringNotes.join(",,") + ";" + noteDisArray.join(",,") + ";" + exploreingNoteTotal + ";" + array[array.length - 1]._id + "\n"; 
     //console.log(viewHisArray.length + "     ;" + viewHisArray.join(","))
 }
-//count: 55, 4 notes separated into 2, in total 59
+
     var noteids = [
 "2018.02.29_17:03:07:861",
 "2018.02.29_16:55:46:54",
@@ -1367,12 +1337,11 @@ if(ids.indexOf(array[array.length-1]._id) < 0) return;
 }
 var allActions = ["select", "deselect", "add", "noteSelect", "pivot", "hoverEntity", "noteDis", "allNote", "detail", "hoverData", 
     "pub", ",", "viewHis", "up", "writeNote"]
-var allTypes = ["select", "deselect", "explore", ",", "connect", ".", "share", ",,", "elaborate", "1", "2", "3", "4", "5", "write a note"]
 
 var countSet = new Set();
 
-function drawNeighbors(actions, neis, omit){
-    var row = d3.select(".matrix").selectAll(".rows").data(actions)
+function drawNeighbors(){
+    var row = d3.select(".matrix").selectAll(".rows").data(allActions)
     var rowEnter = row.enter().append("g").attr({
         class: "rows",
         //transform: function(d,i){return "translate(0," + 11*i + ")"}
@@ -1382,10 +1351,10 @@ function drawNeighbors(actions, neis, omit){
         height: 10,
         width: 10,
         fill: function(d){
-            return c20(actions.indexOf(d))
+            return c20(allActions.indexOf(d))
         },
     })
-    var value = rowEnter.append("g").attr({transform: "translate(11,0)"}).selectAll(".values").data(actions)
+    var value = rowEnter.append("g").attr({transform: "translate(11,0)"}).selectAll(".values").data(allActions)
     var valueEnter = value.enter().append("rect").attr({
         class: "values",
         height: 10,
@@ -1393,7 +1362,7 @@ function drawNeighbors(actions, neis, omit){
         fill: function(d){
             var first = d3.select(this.parentNode).datum(), second = d;
             //console.log(first + " " + second)
-            var re = $.grep(neis, function(e){
+            var re = $.grep(neighbors, function(e){
                 return e.first == first && e.second == second
             })
             var v=0;
@@ -1401,16 +1370,15 @@ function drawNeighbors(actions, neis, omit){
             else if(re.length > 0){
                 v = re[0].count;
                 if(v > 0) countSet.add(parseInt(re[0].count))
-                    console.log(v)
             }
-            return d3.hsv(0, 0, (27-v)/27)//(21-v)/21)
+            return d3.hsv(0, 0, (21-v)/21)
         },
         //transform: function(d,i){ return "translate(" + i*11 + ",0)"}
     })
     value.exit().remove();
     var dis = 0;
     d3.selectAll(".rows").each(function(d, i){
-        if(omit.indexOf(i) > -1){
+        if(i == 11 || i == 13){
             d3.select(this).style("display", "none")
             return
         }
@@ -1418,7 +1386,7 @@ function drawNeighbors(actions, neis, omit){
         dis += 11;
         var diss = 0;
         d3.select(this).selectAll(".values").each(function(a,j){
-            if(omit.indexOf(j) > -1){
+            if(j == 11 || j == 13){
                 d3.select(this).style("display", "none")
                 return
             }
@@ -1427,7 +1395,7 @@ function drawNeighbors(actions, neis, omit){
         })
     })
     //var countArray = [2,4,6,8,10,15,19,33,40,62,162]
-    var countArray = [1,3,9,12,22,27]//[1, 6, 20, 44, 72, 134, 181]//[1,2,4,6,8,10,11,15,16,19,21]
+    var countArray = [1,2,4,6,8,10,11,15,16,19,21]
     var gc = d3.select("svg").append("g").attr("transform", "translate(0,160)")
     var le = gc.selectAll(".le").data(countArray)
     var leEnter =  le.enter().append("g").attr({
@@ -1437,7 +1405,7 @@ function drawNeighbors(actions, neis, omit){
     leEnter.append("rect").attr({
         height: 10,
         width: 10,
-        fill: function(d){return d3.hsv(0, 0, (27-d)/27)} //(21-d)/21)}
+        fill: function(d){return d3.hsv(0, 0, (21-d)/21)}
     })
     leEnter.append("text").text(function(d){return d;}).style({
         "text-anchor": "start",
@@ -1449,14 +1417,13 @@ function drawNeighbors(actions, neis, omit){
         d3.select(this).attr("transform", "translate(" + tran + ",0)")
         tran += d3.select(this).node().getBoundingClientRect().width + 5;
     })
-    // console.log(countArray)
+    console.log(countArray)
 }
 
 var neighbors = []//{first: second: count: }
-var typeNeighbors = []
 function getNeighborActions(array){
     var first = {}, second = {};
-    if(notesDisWithOrder.indexOf(array[array.length-1]._id) < 0) return;
+    if(notesDis.indexOf(array[array.length-1]._id) < 0) return;
 
     first.first = array[0].action;
 
@@ -1472,25 +1439,6 @@ function getNeighborActions(array){
         first = jQuery.extend(true, {}, second);
         second = {}
     }
-// console.log(typeNeighbors)
-}
-
-function categorizeTypes(action){
-    if(action == "add" || action == "noteSelect"){
-        return "explore"
-    }
-    if(action == "pivot" || action == "hoverEntity"){
-        return "connect"
-    }
-    if(action == "hoverData" || action == "detail" || action == "pub"){
-        return "elaborate"
-    }
-         
-    if(action == "noteDis" || action == "allNote" || action == "viewHis" || action == "up" || action == "down"){
-        return "share"
-    }
-    if(action == "writeNote") return "write a note"
-    return action;
 }
 
 var ids = ["2018.02.15_15:59:33:731", "2018.02.15_16:01:05:373", "2018.02.15_16:04:05:965", "2018.02.15_16:08:35:515",
@@ -1506,13 +1454,13 @@ var notesDisWithOrder = ["2018.02.29_17:03:07:861", "", "2018.02.29_14:52:59:995
   "2018.02.23_14:54:43:682", "2018.02.23_15:08:46:656", "2018.02.23_15:15:17:141", "", "2018.02.27_12:06:07:996",
    "2018.02.27_12:14:20:36", "2018.02.27_12:19:35:42", "2018.02.27_12:25:44:501", "",  "2018.02.15_15:45:08:242", "2018.02.15_16:15:33:473", "",
    "2018.02.23_16:32:43:713", "2018.02.23_16:52:41:775", "",  "2018.02.27_09:32:00:303", "2018.02.27_09:49:34:262", "", "2018.02.20_11:37:19:697", "2018.02.20_11:41:30:532", "", 
- "2018.02.22_13:30:04:222", "2018.02.22_13:36:12:329", "2018.02.22_13:49:56:735", "", "2018.02.27_14:06:38:287", 
+"2018.02.22_13:19:58:846", "2018.02.22_13:30:04:222", "2018.02.22_13:36:12:329", "2018.02.22_13:49:56:735", "", "2018.02.27_14:06:38:287", 
 "2018.02.27_14:10:11:333", "2018.02.27_14:15:36:858"]
 //"2018.02.22_13:30:04:222", "2018.02.27_09:49:34:262","2018.02.23_16:32:43:713",
-function getTraces(array){
+function getTraces(array, temp){
     noteId = array[array.length-1]._id;
     //if(noteids.indexOf(array[array.length-1]._id) < 0) return;
-    var ind = notesDisWithOrder.indexOf(noteId);
+    var ind = temp.indexOf(noteId);
     //var re = $.grep(trailArray, function(e){return e.time == noteId});
     if(ind < 0) return;
     //var ind = trailArray.indexOf(re[0]);
@@ -1520,7 +1468,8 @@ function getTraces(array){
     //var addIn = true;
     var tempActions = []
     for(var i = 0; i < array.length; i++){
-        tempActions.push(categorizeTypes(array[i].action) )
+
+        tempActions.push( array[i].action)
         //if(array[i].action != "writeNote" && array[i].action != "editNote" && array[i].action != "deselect")
             //cc++;
         // if(array[i].action == "writeNote" || array[i].action == "editNote"){
@@ -1536,8 +1485,8 @@ function getTraces(array){
     var rowEnter = row.enter().append("rect").attr({
         height: 8,
         width: 5,
-        fill: function(d){console.log(allTypes.indexOf(d));return c20(allTypes.indexOf(d))},
-        transform: function(d,i){ return "translate(" + i * 6 + ",0)"}
+        fill: function(d){return c20(allActions.indexOf(d))},
+        transform: function(d,i){ return "translate(" + i*6 + ",0)"}
     })
     row.exit().remove();
     //row.order();
